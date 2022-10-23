@@ -26,7 +26,7 @@ I haven't kept `man dwm`/`dwm.1` updated though. PRs welcome on that, lol.
 ## git https installation
 
 ```
-git clone https://github.com/FabianPaci/dwm.git
+git clone https://github.com/aymey/dwm.git
 cd dwm
 sudo make install
 ```
