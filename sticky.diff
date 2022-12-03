@@ -1,0 +1,64 @@
+diff --git a/dwm.c b/dwm.c
+index fc5dc35..ac3aa48 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -73,7 +73,7 @@
+ enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
+ enum { SchemeNorm, SchemeSel }; /* color schemes */
+ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
+-       NetWMFullscreen, NetActiveWindow, NetWMWindowType,
++       NetWMFullscreen, NetWMSticky,NetActiveWindow, NetWMWindowType,
+        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+ enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+@@ -1701,6 +1701,24 @@ setfullscreen(Client *c, int fullscreen)
+ 	}
+ }
+
++void
++setsticky(Client *c, int sticky)
++{
++    if(sticky) {
++        XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
++                PropModeReplace, (unsigned char *) &netatom[NetWMSticky], 1);
++        c->issticky = 1;
++        c->oldstate = c->issticky;
++        arrange(c->mon);
++    } else {
++        XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
++            PropModeReplace, (unsigned char *)0, 0);
++        c->issticky = 0;
++        c->issticky = c->oldstate;
++        arrange(c->mon);
++    }
++}
++
+ int
+ stackpos(const Arg *arg) {
+ 	int n, i;
+@@ -1796,6 +1814,7 @@ setup(void)
+ 	netatom[NetWMState] = XInternAtom(dpy, "_NET_WM_STATE", False);
+ 	netatom[NetWMCheck] = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", False);
+ 	netatom[NetWMFullscreen] = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
++	netatom[NetWMSticky] = XInternAtom(dpy, "_NET_WM_STATE_STICKY", False);
+ 	netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
+ 	netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
+ 	netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+@@ -1978,6 +1997,7 @@ togglesticky(const Arg *arg)
+ 	if (!selmon->sel)
+ 		return;
+ 	selmon->sel->issticky = !selmon->sel->issticky;
++    setsticky(selmon->sel, selmon->sel->issticky);
+ 	arrange(selmon);
+ }
+
+@@ -2316,6 +2336,9 @@ updatewindowtype(Client *c)
+
+ 	if (state == netatom[NetWMFullscreen])
+ 		setfullscreen(c, 1);
++    if (state == netatom[NetWMSticky]) {
++        setsticky(c, 1);
++    }
+ 	if (wtype == netatom[NetWMWindowTypeDialog])
+ 		c->isfloating = 1;
+ }
