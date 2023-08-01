@@ -1718,6 +1718,7 @@ setsticky(Client *c, int sticky)
         XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
                 PropModeReplace, (unsigned char *) &netatom[NetWMSticky], 1);
         c->issticky = 1;
+        arrange(c->mon);
     }
 }
 
@@ -2642,4 +2643,3 @@ main(int argc, char *argv[])
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
 }
-

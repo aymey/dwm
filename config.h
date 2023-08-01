@@ -15,7 +15,7 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char *fonts[]          = { "monospace:size=10", "FontAwesome:size=10"};
+static char *fonts[]          = {"monospace:size=10", "FontAwesome:size=10"};
 static char normbgcolor[]           = "#232229";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -329,4 +329,3 @@ static Button buttons[] = {
 	{ ClkTagBar,		0,		Button5,	shiftview,	{.i = 1} },
 	{ ClkRootWin,		0,		Button2,	togglebar,	{0} },
 };
-
