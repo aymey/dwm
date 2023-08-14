@@ -154,6 +154,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_equal,	spawn,		SHCMD("pamixer --allow-boost -i 15; kill -44 $(pidof dwmblocks)") },
 	{ MODKEY,			XK_BackSpace,	spawn,		SHCMD("sysact") },
 	{ MODKEY|ShiftMask,		XK_BackSpace,	spawn,		SHCMD("sysact") },
+	{ MODKEY|ShiftMask,		XK_period,	spawn,		SHCMD("procact") },
 
 	{ MODKEY,			XK_Tab,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
@@ -220,7 +221,6 @@ static Key keys[] = {
 	{ MODKEY,			XK_comma,	spawn,		SHCMD("mpc prev") },
 	{ MODKEY|ShiftMask,		XK_comma,	spawn,		SHCMD("mpc seek 0%") },
 	{ MODKEY,			XK_period,	spawn,		SHCMD("mpc next") },
-	{ MODKEY|ShiftMask,		XK_period,	spawn,		SHCMD("mpc repeat") },
 
 	{ MODKEY,			XK_Left,	focusmon,	{.i = -1 } },
 	{ MODKEY|ShiftMask,		XK_Left,	tagmon,		{.i = -1 } },
